@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kuis & Animasi Berpikir Komputasional</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    .soal {
+      margin-bottom: 20px;
+    }
+
+    .opsi button {
+      display: block;
+      margin: 5px 0;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .opsi button:hover {
+      background-color: #0056b3;
+    }
+
+    #feedback {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .animasi-container {
+      margin-top: 40px;
+    }
+
+    .animasi-box {
+      width: 300px;
+      height: 120px;
+      border: 2px solid #aaa;
+      position: relative;
+      margin-bottom: 30px;
+      background: #ffffff;
+    }
+
+    .karakter-gerak {
+      width: 50px;
+      height: 50px;
+      background-color: orange;
+      border-radius: 50%;
+      position: absolute;
+      top: 35px;
+      animation: gerakKanan 3s linear infinite;
+    }
+
+    .karakter-lompat {
+      width: 50px;
+      height: 50px;
+      background-color: #28a745;
+      border-radius: 50%;
+      position: absolute;
+      top: 50px;
+      left: 120px;
+      animation: lompat 1s ease-in-out infinite;
+    }
+
+    @keyframes gerakKanan {
+      0% { left: 0; }
+      100% { left: 250px; }
+    }
+
+    @keyframes lompat {
+      0%, 100% { top: 50px; }
+      50% { top: 10px; }
+    }
+
+    .frame-box {
+      display: flex;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .frame {
+      width: 40px;
+      height: 40px;
+      background: gray;
+      opacity: 0.3;
+      border-radius: 50%;
+      animation: frameAnim 1s steps(4) infinite;
+    }
+
+    @keyframes frameAnim {
+      0% { background: gray; }
+      25% { background: red; }
+      50% { background: yellow; }
+      75% { background: green; }
+      100% { background: gray; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>🧠 Kuis Berpikir Komputasional + Contoh Animasi</h1>
+
+<div class="soal" id="soal"></div>
+<div class="opsi" id="opsi"></div>
+<div id="feedback"></div>
+
+<div class="animasi-container">
+  <h2>🎞️ Contoh 1: Gerak Berulang (Loop Movement)</h2>
+  <div class="animasi-box">
+    <div class="karakter-gerak"></div>
+  </div>
+
+  <h2>🏃 Contoh 2: Karakter Melompat</h2>
+  <div class="animasi-box">
+    <div class="karakter-lompat"></div>
+  </div>
+
+  <h2>🧩 Contoh 3: Animasi Frame-by-Frame (Polanya Berubah)</h2>
+  <div class="frame-box">
+    <div class="frame"></div>
+    <div class="frame"></div>
+    <div class="frame"></div>
+    <div class="frame"></div>
+  </div>
+</div>
+
+<script>
+  const soal = [
+    {
+      teks: "1. Dalam animasi, gerakan berulang seperti langkah kaki disebut...",
+      opsi: ["A. Loop", "B. Dekomposisi", "C. Event", "D. Algoritma"],
+      benar: "A"
+    },
+    {
+      teks: "2. Pola perubahan warna berurutan dalam animasi disebut...",
+      opsi: ["A. Abstraksi", "B. Pola", "C. Variabel", "D. Debugging"],
+      benar: "B"
+    }
+  ];
+
+  let indexSoal = 0;
+  let skor = 0;
+
+  function tampilkanSoal() {
+    document.getElementById("feedback").textContent = "";
+    const s = soal[indexSoal];
+    document.getElementById("soal").textContent = s.teks;
+
+    const opsiDiv = document.getElementById("opsi");
+    opsiDiv.innerHTML = "";
+    s.opsi.forEach((opsiText, i) => {
+      const btn = document.createElement("button");
+      btn.textContent = opsiText;
+      btn.onclick = () => cekJawaban(opsiText[0]);
+      opsiDiv.appendChild(btn);
+    });
+  }
+
+  function cekJawaban(jawaban) {
+    const benar = soal[indexSoal].benar;
+    if (jawaban === benar) {
+      skor++;
+      document.getElementById("feedback").textContent = "✅ Benar!";
+    } else {
+      document.getElementById("feedback").textContent = `❌ Salah. Jawaban: ${benar}`;
+    }
+
+    indexSoal++;
+    setTimeout(() => {
+      if (indexSoal < soal.length) {
+        tampilkanSoal();
+      } else {
+        document.getElementById("soal").textContent = `Skor akhir: ${skor} dari ${soal.length}`;
+        document.getElementById("opsi").innerHTML = "";
+        document.getElementById("feedback").textContent = "";
+      }
+    }, 1500);
+  }
+
+  tampilkanSoal();
+</script>
+
+</body>
+</html>
